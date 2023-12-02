@@ -1,5 +1,5 @@
 
-# Sinhala Text Translator Chrome Extension
+# English To Sinhala Text Translator Chrome Extension
 
  This Chrome extension simplifies translation tasks by instantly converting selected text into Sinhala. Seamlessly integrate translation capabilities into your browsing experience, making language comprehension effortless. Enhance your browsing by translating on-the-go with this lightweight, user-friendly extension.
 
