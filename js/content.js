@@ -1,4 +1,17 @@
-document.addEventListener('mouseup', function(event) {
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  if (message.enableColorDetection) {
+    
+    document.addEventListener('mouseup', translate);
+
+  } else if (message.disableColorDetection) {
+   
+    document.removeEventListener('mouseup', translate);
+
+  }
+});
+
+function translate(event) {
   const selectedText = window.getSelection().toString().trim();
   if (selectedText) {
     const sourceLanguage = 'en'; 
@@ -49,8 +62,7 @@ document.addEventListener('mouseup', function(event) {
       //   alert('Something went wrong,Please try again later:', error);
       // });
   }
-  
-});
+};
 
 //developed by Nadeesha weerasekara 
 

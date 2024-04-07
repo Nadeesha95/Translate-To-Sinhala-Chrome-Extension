@@ -1,43 +1,38 @@
-
 document.addEventListener('DOMContentLoaded', function() {
-    const toggleSwitch = document.getElementById('btn'); // Assuming your toggle button's ID is 'btn'
-    const hoverBox = document.getElementById('hoverBox');
-  
-  
-    function toggleBox() {
-      if (toggleSwitch.checked) {
-    
-        hoverBox.style.display = 'block';
-        localStorage.setItem('popupOpen', 'true');
-  
-        
-      } else {
 
-        localStorage.removeItem('popupOpen');
+  const checkbox = document.getElementById('btn');
 
-  
-      }
-    }
-  
-    toggleSwitch.addEventListener('change', toggleBox);
-  
-    const icon = document.createElement('span');
-    icon.style.cursor = 'pointer';
-    icon.addEventListener('click', function() {
-      toggleSwitch.checked = !toggleSwitch.checked;
-      toggleBox();
+
+  const storedCheckboxState = localStorage.getItem('checkboxState');
+
+
+  if (storedCheckboxState && storedCheckboxState === 'checked') {
+    checkbox.checked = true;
+
+    localStorage.setItem('checkboxState', 'checked');
+
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {enableColorDetection: true});
     });
-  
-    document.body.appendChild(icon);
-  
-    // Check if the popup was open previously
-    const popupOpen = localStorage.getItem('popupOpen');
-    if (popupOpen === 'true') {
-      toggleSwitch.checked = true;
-      toggleBox();
+    
+  }
+
+
+  checkbox.addEventListener('change', function() {
+    if (this.checked) {
+      localStorage.setItem('checkboxState', 'checked');
+
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {enableColorDetection: true});
+      });
+    } else {
+      localStorage.removeItem('checkboxState');
+
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {disableColorDetection: true});
+      });
     }
   });
 
 
-
-  
+});
